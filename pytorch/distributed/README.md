@@ -44,11 +44,7 @@ Guide to use OneCCL to do distributed training in Pytorch.
      from torch.nn.parallel import DistributedDataParallel as DDP
      import torch.distributed as dist
      import sys     
-     try:
-         import torch_ccl
-     except ImportError as e:
-         print("import torch_ccl error", e)
-         sys.exit()
+     import torch_ccl    
      
      class Model(nn.Module):
          def __init__(self):
@@ -58,15 +54,13 @@ Guide to use OneCCL to do distributed training in Pytorch.
          def forward(self, input):
              return self.linear(input)
      
-     
      if __name__ == "__main__":
          
          os.environ['RANK'] = os.environ.get('PMI_RANK', -1)
-         os.environ['WORLD_SIZE'] = os.environ.get('PMI_SIZE', -1)
-       
-         # Initialize the process group with ccl backend 
-         dist.init_process_group(backend='oneCCL')
-     
+         os.environ['WORLD_SIZE'] = os.environ.get('PMI_SIZE', -1)       
+         # Initialize the process group with oneCCL backend 
+         dist.init_process_group(backend='oneCCL')    
+         
          model = Model()
          if dist.get_world_size() > 1:
              model=DDP(model)
