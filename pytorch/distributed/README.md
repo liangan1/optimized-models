@@ -65,7 +65,7 @@ Guide to use OneCCL to do distributed training in Pytorch.
          os.environ['WORLD_SIZE'] = os.environ.get('PMI_SIZE', -1)
        
          # Initialize the process group with ccl backend 
-         dist.init_process_group(backend='ccl')
+         dist.init_process_group(backend='oneCCL')
      
          model = Model()
          if dist.get_world_size() > 1:
